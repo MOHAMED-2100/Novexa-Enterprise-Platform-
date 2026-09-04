@@ -1,20 +1,44 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import express from 'express';
+import cookieParser from 'cookie-parser';
 import path from 'path';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './src/server/app.module.js';
 import { ViteFallbackFilter } from './src/server/vite-fallback.filter.js';
+import { runMigrations } from './src/database/migrate.js';
 
 async function bootstrap() {
   const expressApp = express();
+  expressApp.use(cookieParser());
+  expressApp.use(express.json());
+
+  // Run database migration to ensure tables exist in target database
+  try {
+    await runMigrations();
+  } catch (migErr: any) {
+    console.warn('[Novexa] Database migration deferred or offline:', migErr.message);
+  }
 
   // Create NestJS instance attached to Express
   const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp), {
-    cors: true,
+    cors: {
+      origin: true,
+      credentials: true,
+    },
     logger: ['error', 'warn', 'log'],
   });
+
+  // Enable request DTO validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: false,
+    })
+  );
 
   // Apply global filter allowing non-API requests to cascade to Vite/static frontend
   app.useGlobalFilters(new ViteFallbackFilter());

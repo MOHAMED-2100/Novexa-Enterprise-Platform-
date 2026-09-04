@@ -4,10 +4,16 @@ import { Navbar } from './client/components/Navbar.js';
 import { HealthMonitor } from './client/components/HealthMonitor.js';
 import { ModulesCard } from './client/components/ModulesCard.js';
 import { DockerRunGuide } from './client/components/DockerRunGuide.js';
+import { LoginForm } from './client/components/LoginForm.js';
+import { UserProfileBanner } from './client/components/UserProfileBanner.js';
+import { TenantModuleWorkspace } from './client/components/TenantModuleWorkspace.js';
+import { AuditLogViewer } from './client/components/AuditLogViewer.js';
 import { HealthResponse, ModuleItem, ModulesResponse } from './client/types.js';
+import { useAuthStore } from './client/store/authStore.js';
 
 export default function App() {
   const { t, i18n } = useTranslation();
+  const { isAuthenticated, checkSession } = useAuthStore();
   const [health, setHealth] = useState<HealthResponse | null>(null);
   const [httpStatus, setHttpStatus] = useState<number | null>(null);
   const [isLoadingHealth, setIsLoadingHealth] = useState<boolean>(true);
@@ -29,7 +35,6 @@ export default function App() {
       setHealth({ ...data, httpStatus: res.status });
       setLastChecked(new Date());
     } catch (err: any) {
-      // Network failure or offline
       setHttpStatus(503);
       setHealth({
         status: 'error',
@@ -66,7 +71,6 @@ export default function App() {
         setModulesSource(json.source || 'fallback');
       }
     } catch {
-      // Keep baseline fallback modules
       setModulesSource('fallback');
     }
   }, []);
@@ -74,7 +78,8 @@ export default function App() {
   useEffect(() => {
     fetchHealth();
     fetchModules();
-  }, [fetchHealth, fetchModules]);
+    checkSession();
+  }, [fetchHealth, fetchModules, checkSession]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors">
@@ -95,7 +100,23 @@ export default function App() {
           </div>
         </section>
 
-        {/* 1. Real /health telemetry status card */}
+        {/* Phase 1: Authentication & Access Control */}
+        {!isAuthenticated ? (
+          <LoginForm />
+        ) : (
+          <div className="space-y-8">
+            {/* Active User Session Banner */}
+            <UserProfileBanner />
+
+            {/* Tenant Module Activation & Dependency Manager */}
+            <TenantModuleWorkspace />
+
+            {/* Compliance Audit Trail */}
+            <AuditLogViewer />
+          </div>
+        )}
+
+        {/* Phase 0 Core Infrastructure: Real /health telemetry status card */}
         <HealthMonitor
           health={health}
           isLoading={isLoadingHealth}
@@ -104,10 +125,10 @@ export default function App() {
           lastChecked={lastChecked}
         />
 
-        {/* 2. Database 'modules' table representation */}
+        {/* Database 'modules' table registry */}
         <ModulesCard modules={modules} source={modulesSource} />
 
-        {/* 3. Docker Compose & Local Run instructions */}
+        {/* Docker Compose & Local Run instructions */}
         <DockerRunGuide />
       </main>
 
