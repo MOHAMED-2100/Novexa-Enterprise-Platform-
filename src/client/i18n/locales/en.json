@@ -1,0 +1,71 @@
+{
+  "app": {
+    "title": "Novexa Enterprise Platform",
+    "badge": "Phase 0 • Architectural Foundation",
+    "subtitle": "Global, industry-agnostic ERP built on a modular monolith with first-class multi-language architecture.",
+    "tagline": "Next-Generation Global ERP Platform"
+  },
+  "nav": {
+    "architecture": "Modular Monolith",
+    "database": "PostgreSQL + Drizzle",
+    "language": "Language",
+    "direction": "Direction",
+    "english": "English (LTR)",
+    "arabic": "العربية (RTL)"
+  },
+  "health": {
+    "sectionTitle": "Live System & Database Telemetry",
+    "sectionSubtitle": "Active probe querying GET /health. Verifies direct PostgreSQL connection state.",
+    "refreshButton": "Refresh Telemetry",
+    "refreshing": "Probing Connection...",
+    "httpStatus": "HTTP Response Status",
+    "dbStatus": "Database Connectivity",
+    "dbConnected": "Connected (200 OK)",
+    "dbDisconnected": "Disconnected (503 Unavailable)",
+    "dbTarget": "Connection Target",
+    "latency": "Round-Trip Latency",
+    "uptime": "Server Uptime",
+    "timestamp": "Probe Timestamp",
+    "version": "Database Engine",
+    "environment": "Environment",
+    "modulesTableStatus": "Modules Table Schema",
+    "tableFound": "Active in Database",
+    "tableNotFound": "Awaiting Database Spin-up",
+    "diagnosticsTitle": "Connection Diagnostics & Error Details",
+    "noErrors": "Database socket operational and responsive to SQL probes.",
+    "errorNotice": "PostgreSQL connection refused at configured target. In this remote sandbox, run Docker Compose locally or supply a remote DATABASE_URL.",
+    "rawPayload": "Raw Telemetry Payload (GET /health)"
+  },
+  "modules": {
+    "sectionTitle": "Architectural Modules Registry (Table: modules)",
+    "sectionSubtitle": "Pre-configured database table defining system modules, groups, and explicit dependency graphs.",
+    "code": "Code",
+    "name": "Module Name",
+    "group": "Cluster / Group",
+    "dependsOn": "Dependencies",
+    "status": "Status",
+    "dataSource": "Data Source",
+    "dbSource": "Live PostgreSQL Query",
+    "fallbackSource": "Architectural Fallback",
+    "emptyList": "No modules registered yet.",
+    "noDependencies": "None (Root Module)"
+  },
+  "docker": {
+    "sectionTitle": "Local Run Instructions (Docker Compose)",
+    "sectionSubtitle": "Complete instructions to run Novexa with PostgreSQL and Redis locally.",
+    "step1Title": "1. Clone and Inspect Environment",
+    "step1Desc": "Ensure your .env contains the database and redis credentials.",
+    "step2Title": "2. Start All Services via Docker Compose",
+    "step2Desc": "Launches the containerized Novexa app, PostgreSQL 16, and Redis 7.",
+    "step3Title": "3. Verify System Health in Browser",
+    "step3Desc": "Open your browser to inspect live health and switch languages.",
+    "step4Title": "4. Verify Migration & Modules Table",
+    "step4Desc": "Inspect the initialized modules table directly inside PostgreSQL.",
+    "copyCommand": "Copy Command",
+    "copied": "Copied!"
+  },
+  "footer": {
+    "copyright": "Novexa Enterprise Platform. Built with NestJS, Drizzle ORM, PostgreSQL, Redis, React, and Vite.",
+    "rules": "Adheres to Enterprise Architecture Phase 0: Real Database Probe, True Modular Monolith, Multi-Language from Ground Up."
+  }
+}

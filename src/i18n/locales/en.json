@@ -1,0 +1,38 @@
+{
+  "system": {
+    "name": "Novexa Enterprise Platform",
+    "description": "Global, industry-agnostic ERP with multi-language core",
+    "status": {
+      "healthy": "System is healthy and operational",
+      "degraded": "System is operating in a degraded state",
+      "unavailable": "Database service is unavailable"
+    }
+  },
+  "health": {
+    "title": "System Health & Diagnostic Telemetry",
+    "status": "System Status",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "database": "PostgreSQL Database",
+    "redis": "Redis Cache & Queue",
+    "latency": "Latency",
+    "uptime": "Uptime",
+    "timestamp": "Timestamp",
+    "modulesTable": "Modules Table",
+    "tableExists": "Table Exists",
+    "tableMissing": "Table Missing",
+    "connectionRefused": "Connection refused to PostgreSQL database. Please ensure the database container is active.",
+    "checkInstructions": "Run 'docker compose up -d' to start the local PostgreSQL and Redis services."
+  },
+  "modules": {
+    "title": "System Modules Registry",
+    "code": "Module Code",
+    "name": "Module Name",
+    "group": "Functional Cluster",
+    "dependencies": "Dependencies",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "total": "Total Registered Modules"
+  }
+}
